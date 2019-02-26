@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+         <title> My Web App</title>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.js"></script>
+         
+         <link rel="stylesheet" href="css/bootstrap.css">
+
+         <link rel="stylesheet" href="css/style.css">
+    </head>
+ 
+
+    <body>
+        <div id="app"></div>
+        
+     
+
+
+
+      <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+      <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+      <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+      
+
+    
+
+      <script type="text/babel">
+
+       
+
+          //React NavBar Component
+          class NavBar extends React.Component{
+
+          
+
+            render(){
+              if (this.props.navColor == 'dark') {
+                var navClass = "navbar navbar-expand-lg navbar-dark bg-dark" 
+              }
+              else if(this.props.navColor == 'light'){
+                var navClass = "navbar navbar-expand-lg navbar-light bg-light" 
+              }
+              
+              var homeActive = ''
+              var aboutActive = ''
+              if(this.props.page == 'home'){
+                homeActive = 'nav-item active'
+              }
+              else if(this.props.page == 'about'){
+                aboutActive = 'nav-item active'
+              }
+              return(
+              <div>
+                  <nav className={navClass}>
+                    <a className="navbar-brand" href="#">{this.props.brand}</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <span className="navbar-toggler-icon"></span>
+                    </button>
+                  
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul className="navbar-nav mr-auto">
+                        <li className={homeActive}>
+                          <a className="nav-link" onClick={this.props.homeClick}   href="#">Home</a>
+                        </li>
+                        <li className={aboutActive}>
+                          <a className="nav-link" onClick={this.props.aboutClick} href="#">About</a>
+                        </li>
+                        
+                        <li className="nav-item">
+                          <a className="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                      </ul>
+                    
+                    </div>
+            </nav>
+              </div>
+            )
+          }
+        }
+        NavBar.defaultProps = {
+            brand: 'Mary',
+            navColor : "light"
+         };
+
+         NavBar.propTypes = {
+            brand: PropTypes.string.isRequired
+          };
+
+            //Jumbotron COmponent
+            class Jumbotron extends React.Component{
+            render(){
+              return(
+                <div>
+                  
+                    <div className="jumbotron">
+                    <div className="container">
+                      <h1 className="display-3">{this.props.heading}</h1>
+                      <p>{this.props.text}</p>
+                      <p><a className="btn btn-primary btn-lg" href={this.props.link} role="button">Learn more &raquo;</a></p>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          }
+
+          Jumbotron.defaultProps = {
+            heading : "Welcome Back!!",
+            text : "This is a Website Where You Will Find ...",
+            link : "https://www.google.com"
+          };
+
+          Jumbotron.propTypes = {
+            heading : PropTypes.string,
+            heading : PropTypes.string,
+            heading : PropTypes.string
+          };
+
+            //HomePage COmponent
+            class HomePage extends React.Component{
+            render(){
+              return(
+                <div className="container">
+                    <div className="column">
+                      <h1 className="page-header">Welcome Home</h1>
+                      <p>Do You Want To Play</p>
+                    </div>
+          
+                </div>
+              )
+            }
+          }
+
+            //AboutPage COmponent
+            class AboutPage extends React.Component{
+            render(){
+              return(
+                <div className="container">
+                    <div className="column">
+                      <h1 className="page-header">About Us</h1>
+                      <p>We Are Gamers</p>
+                    </div>
+          
+                </div>
+              )
+            }
+          }
+
+             //Footer COmponent
+             class Footer extends React.Component{
+            render(){
+              return(
+                <div className="container">
+                   
+                    <hr />
+                    <footer className="container">
+                        <p>&copy; {this.props.web} {this.props.copyRightYear}</p>
+                    </footer>
+                </div>
+              )
+            }
+          }
+
+          Footer.defaultProps = {
+            web : "Maryland",
+            copyRightYear : "2019-2020"
+          };
+
+          
+          //Main App COmponent
+          class App extends React.Component{
+            constructor(props) {
+              super(props);
+              this.state = { page : 'home' };
+
+              this.handleHomeClick = this.handleHomeClick.bind(this);
+              this.handleAboutClick = this.handleAboutClick.bind(this);
+            }
+
+            handleHomeClick() {
+              this.setState({
+                page : 'home'
+              });
+               // console.log('this is:', this);
+              }
+              handleAboutClick() {
+              this.setState({
+                page : 'about'
+              });
+             //   console.log('this is: about');  
+            }
+
+
+            render(){
+              if(this.state.page == 'home'){
+                var jumbotron = <Jumbotron />
+                var pageContent = <HomePage />
+              }
+
+              else if(this.state.page == 'about'){
+                var jumbotron = ''
+                var pageContent = <AboutPage />
+              }
+
+              
+              return(
+                <div>
+                  <NavBar navColor="dark" 
+                  homeClick={this.handleHomeClick} 
+                  aboutClick={this.handleAboutClick}
+                  page = {this.state.page}
+                  />
+                  {jumbotron}
+                  {pageContent}
+                  <Footer />
+                </div>
+              )
+            }
+          }
+         
+       
+        ReactDOM.render(<App/>,document.getElementById('app'));
+        
+      
+      </script>
+
+
+
+    
+
+    </body>
+
+
+</html>
